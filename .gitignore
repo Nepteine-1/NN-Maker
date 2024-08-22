@@ -1,0 +1,14 @@
+exe
+.vscode
+Makefile
+CMakeCache.txt
+install_manifest.txt
+*.cmake
+CMakeFiles
+NN-Maker
+*.temp
+*.tmp
+logs
+*.log
+Example
+NN-Maker_autogen/
