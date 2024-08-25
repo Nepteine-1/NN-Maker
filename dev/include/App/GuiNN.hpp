@@ -5,6 +5,7 @@
 #include <QMutexLocker>
 #include <QMutex>
 #include <QWidget>
+#include <QMouseEvent>
 #include <sstream>
 #include <unistd.h>
 
@@ -20,6 +21,14 @@ class GuiNN : public QWidget{
     public:
         GuiNN(void);
         ~GuiNN(void);
+
+    void keyPressEvent( QKeyEvent * event ) override {
+        std::cout << "test" << std::endl;
+         if( event->key() == Qt::Key_A )
+        {
+            std::cout << "YO" << std::endl;
+        }
+    }
 
     signals:
         void on_QApp_addLayer(int, QString);

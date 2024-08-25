@@ -44,6 +44,9 @@
       <height>561</height>
      </size>
     </property>
+    <property name="cursor">
+     <cursorShape>OpenHandCursor</cursorShape>
+    </property>
     <property name="toolTip">
      <string>How much data to generate</string>
     </property>

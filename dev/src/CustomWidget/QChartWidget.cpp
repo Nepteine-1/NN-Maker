@@ -5,6 +5,8 @@ QChartWidget::QChartWidget(QWidget* Parent, const QPoint& Position, const QSize&
     move(Position);
     resize(Size);
 
+    this->setMouseTracking(true);
+
     m_chartWidget = new QChart();
     m_chartWidget->setTitle("Training results");
     m_chartWidget->createDefaultAxes();
@@ -44,6 +46,8 @@ void QChartWidget::showLossResults(NeuralNetwork* nn) {
     m_chartWidget->createDefaultAxes();
     m_chartWidget->axes(Qt::Horizontal).back()->setTitleText("Epochs");
     m_chartWidget->axes(Qt::Vertical).back()->setTitleText("Loss");
+    auto temp_axis_h = static_cast<const QValueAxis*>(m_chartWidget->axes(Qt::Horizontal).back());
+    auto temp_axis_v = static_cast<const QValueAxis*>(m_chartWidget->axes(Qt::Vertical).back());
 }
 
 void QChartWidget::resetChart(void) { 
@@ -55,3 +59,48 @@ void QChartWidget::resetChart(void) {
 }
 
 void QChartWidget::slot_resetChart(void) { resetChart(); }
+
+void QChartWidget::wheelEvent(QWheelEvent *e)
+{
+    QPoint numDegrees = e->angleDelta();
+    if(numDegrees.y() > 0) {
+        m_chartWidget->zoomIn();
+    }
+    else if(numDegrees.y() < 0) {
+        m_chartWidget->zoomOut();
+    }
+}
+
+void QChartWidget::mouseMoveEvent(QMouseEvent *ev) {
+    if(m_dragDrop) {
+        QPoint delta_mouse_pos = QCursor::pos() - m_lastMousePos;
+        m_lastMousePos = QCursor::pos();
+        auto temp_axis_h = static_cast<const QValueAxis*>(m_chartWidget->axes(Qt::Horizontal).back());
+        auto temp_axis_v = static_cast<const QValueAxis*>(m_chartWidget->axes(Qt::Vertical).back());
+
+        if(delta_mouse_pos.x()!=0) {
+            qreal alpha = delta_mouse_pos.x()/m_chartWidget->geometry().width();
+            qreal beta = (temp_axis_h->max() - temp_axis_h->min())*alpha;
+            m_chartWidget->axes(Qt::Horizontal).back()->setRange(temp_axis_h->min()-beta, temp_axis_h->max()-beta);
+        }
+
+        if(delta_mouse_pos.y()!=0) {
+            qreal alpha = delta_mouse_pos.y()/m_chartWidget->geometry().height();
+            qreal beta = (temp_axis_v->max() - temp_axis_v->min())*alpha;
+            m_chartWidget->axes(Qt::Vertical).back()->setRange(temp_axis_v->min()+beta, temp_axis_v->max()+beta);
+        }
+    }
+}
+
+void QChartWidget::mousePressEvent(QMouseEvent *ev) {
+    m_dragDrop = true;
+    m_lastMousePos = QCursor::pos();
+    this->setCursor(QCursor(Qt::ClosedHandCursor));
+}
+
+void QChartWidget::mouseReleaseEvent(QMouseEvent *ev) { 
+    m_dragDrop = false;
+    this->setCursor(QCursor(Qt::OpenHandCursor));
+}
+
+void QChartWidget::keyPressEvent(QKeyEvent *event) {}

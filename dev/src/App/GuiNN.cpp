@@ -18,7 +18,7 @@ GuiNN::GuiNN(void) :
     m_train_worker(m_nn, &global_mutex),
     m_trainpb_worker(&global_mutex)
 {
-
+    setMouseTracking(true);
     DEBUG_MSG_S("LOAD_GUI");
     QFile file("./assets/gui/network_setup_window.ui");
     file.open(QFile::ReadOnly);
