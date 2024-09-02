@@ -27,13 +27,17 @@ sudo apt install g++
 ### Data generated
 
 - Linear
+
 ![image](https://github.com/user-attachments/assets/9527a4f3-2aab-48da-9fe6-63ecf2718afd)
 
 - Balanced
+
 ![image](https://github.com/user-attachments/assets/56da518b-b8b9-46de-a0a3-0cbd86632119)
 
 - Circle
+
 ![image](https://github.com/user-attachments/assets/5d62df5e-8fc9-4dfb-b1a6-4ff1838e0f85)
 
 - 3Class
+
 ![image](https://github.com/user-attachments/assets/afce7af3-1e86-4253-9629-07afab6d4426)
